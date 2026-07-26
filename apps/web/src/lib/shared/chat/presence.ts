@@ -29,4 +29,4 @@ export interface ChatPresence {
  * fresh (e.g. an agent going offline). Comfortably under the server's presence
  * TTL so a gone agent is reflected promptly. The SSR seed covers first paint.
  */
-export const CHAT_PRESENCE_POLL_MS = 30_000
+export const CHAT_PRESENCE_POLL_MS = 120_000 // 2 min (dialed down from 30s)
