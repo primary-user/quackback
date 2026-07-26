@@ -77,7 +77,7 @@ export function useNotifications({
     },
     enabled,
     staleTime: 30_000,
-    refetchInterval: 30_000,
+    refetchInterval: 300_000, // 5 min (dialed down from 30s)
   })
 }
 
@@ -87,6 +87,6 @@ export function useUnreadCount(enabled = true): ReturnType<typeof useQuery<numbe
     queryFn: async () => (await getUnreadCountFn()).count,
     enabled,
     staleTime: 15_000,
-    refetchInterval: 30_000,
+    refetchInterval: 300_000, // 5 min (dialed down from 30s)
   })
 }
