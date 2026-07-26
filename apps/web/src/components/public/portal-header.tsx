@@ -20,7 +20,6 @@ import { UserStatsBar } from '@/components/shared/user-stats'
 import {
   ArrowRightStartOnRectangleIcon,
   Cog6ToothIcon,
-  ComputerDesktopIcon,
   MoonIcon,
   ShieldCheckIcon,
   SunIcon,
@@ -46,6 +45,27 @@ interface PortalHeaderProps {
   }
   /** Whether to show the theme toggle (hidden when admin forces a specific theme) */
   showThemeToggle?: boolean
+}
+
+/**
+ * "Auto / System" theme glyph: a circle whose left half is filled, reading as
+ * "adaptive/contrast". Clearer than a monitor icon, which reads as "display".
+ * Single-color (currentColor) so it inherits text color like the sun/moon icons.
+ */
+function ContrastIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      className={className}
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+    >
+      <circle cx="12" cy="12" r="9" />
+      <path d="M12 3a9 9 0 0 0 0 18Z" fill="currentColor" stroke="none" />
+    </svg>
+  )
 }
 
 export function PortalHeader({
@@ -200,7 +220,7 @@ export function PortalHeader({
       {
         value: 'system',
         label: intl.formatMessage({ id: 'portal.header.theme.system', defaultMessage: 'System' }),
-        icon: ComputerDesktopIcon,
+        icon: ContrastIcon,
       },
       {
         value: 'light',
@@ -218,7 +238,8 @@ export function PortalHeader({
     const CurrentIcon = currentTheme.icon
 
     return (
-      <DropdownMenu>
+      <div className="flex items-center">
+        <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" size="icon" className="h-9 w-9">
             <CurrentIcon className="h-4 w-4" />
@@ -242,7 +263,10 @@ export function PortalHeader({
             </DropdownMenuItem>
           ))}
         </DropdownMenuContent>
-      </DropdownMenu>
+        </DropdownMenu>
+        {/* Divider: separates the theme control from the Log in / Sign up group */}
+        <div className="mx-2 h-5 w-px bg-border" aria-hidden="true" />
+      </div>
     )
   }
 
