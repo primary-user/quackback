@@ -158,8 +158,8 @@ export function logStartupBanner(): void {
             )
           )
         },
-        15 * 60 * 1000
-      ) // Every 15 minutes
+        60 * 60 * 1000
+      ) // Every hour (dialed down from 15 min)
       setInterval(
         () => {
           void withSweepLock('suggestion_expiry', ONE_HOUR, async () => {
@@ -225,8 +225,8 @@ export function logStartupBanner(): void {
             refreshStaleSummaries().catch((err) => log.error({ err }, 'summary sweep failed'))
           )
         },
-        30 * 60 * 1000
-      ) // Every 30 minutes
+        24 * 60 * 60 * 1000
+      ) // Daily (dialed down from 30 min - AI cost)
     })
     .catch((err) => log.error({ err }, 'failed to init summary sweep'))
 
@@ -255,8 +255,8 @@ export function logStartupBanner(): void {
             )
           )
         },
-        30 * 60 * 1000
-      ) // Every 30 minutes
+        24 * 60 * 60 * 1000
+      ) // Daily (dialed down from 30 min - AI cost)
     })
     .catch((err) => log.error({ err }, 'failed to init merge suggestion sweep'))
 
@@ -275,7 +275,7 @@ export function logStartupBanner(): void {
           )
         })
       setTimeout(() => void runReconcile(), 25_000) // 25s delay (stagger after merge's 15s)
-      setInterval(() => void runReconcile(), 5 * 60 * 1000) // Every 5 minutes
+      setInterval(() => void runReconcile(), 60 * 60 * 1000) // Every hour (dialed down from 5 min)
     })
     .catch((err) => log.error({ err }, 'failed to init changelog notify reconciler'))
 
