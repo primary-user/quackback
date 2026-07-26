@@ -300,7 +300,7 @@ function InboxPage() {
   const isSaved = nav.kind === 'view' && nav.view === 'saved'
   const { data: listData, isLoading: listLoading } = useQuery({
     ...chatInboxQueries.conversationList(nav, status, priorityFilter, search),
-    refetchInterval: 30_000, // polling fallback if the stream drops
+    refetchInterval: 300_000, // 5 min fallback (dialed down from 30s); SSE stream is the live path
     enabled: !isSaved,
   })
 
