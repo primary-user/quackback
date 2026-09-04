@@ -30,4 +30,18 @@ fi
 echo ""
 echo "Starting Quackback server on port ${PORT:-3000}..."
 echo "========================================"
-exec bun .output/server/index.mjs
+# --smol trades a little throughput for a much smaller resident heap: Bun runs
+# the GC more eagerly and grows the heap in smaller steps instead of holding
+# whatever high-water mark it once reached.
+#
+# That trade is correct for a self-hosted comment server. The workload is a
+# handful of requests an hour, so the throughput given up is invisible, while
+# the memory held is billed by the gigabyte-month around the clock whether or
+# not anybody is reading.
+#
+# Set BUN_SMOL=false to opt out on an instance with real traffic.
+if [ "$BUN_SMOL" = "false" ]; then
+  exec bun .output/server/index.mjs
+else
+  exec bun --smol .output/server/index.mjs
+fi
